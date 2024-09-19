@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>React To-Do List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .todo-list {
+            list-style: none;
+            padding: 0;
+        }
+        .todo-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+        .todo-item.completed {
+            text-decoration: line-through;
+            color: #888;
+        }
+        .todo-item button {
+            background: none;
+            border: none;
+            color: #ff6347;
+            cursor: pointer;
+        }
+        .todo-item button:hover {
+            color: #ff4500;
+        }
+        .add-todo {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        .add-todo input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .add-todo button {
+            padding: 10px;
+            border: none;
+            background-color: #28a745;
+            color: white;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+        .add-todo button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+    <script src="https://unpkg.com/react/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/babel-standalone/babel.min.js"></script>
+    <script type="text/babel">
+        const { useState } = React;
+
+        function App() {
+            const [todos, setTodos] = useState([]);
+            const [newTodo, setNewTodo] = useState("");
+
+            const addTodo = () => {
+                if (newTodo.trim() !== "") {
+                    setTodos([...todos, { text: newTodo, completed: false }]);
+                    setNewTodo("");
+                }
+            };
+
+            const toggleTodo = index => {
+                const newTodos = [...todos];
+                newTodos[index].completed = !newTodos[index].completed;
+                setTodos(newTodos);
+            };
+
+            const deleteTodo = index => {
+                const newTodos = [...todos];
+                newTodos.splice(index, 1);
+                setTodos(newTodos);
+            };
+
+            return (
+                <div className="container">
+                    <h1>To-Do List</h1>
+                    <ul className="todo-list">
+                        {todos.map((todo, index) => (
+                            <li key={index} className={`todo-item ${todo.completed ? "completed" : ""}`}>
+                                <span onClick={() => toggleTodo(index)}>{todo.text}</span>
+                                <button onClick={() => deleteTodo(index)}>Delete</button>
+                            </li>
+                        ))}
+                    </ul>
+                    <div className="add-todo">
+                        <input
+                            type="text"
+                            value={newTodo}
+                            onChange={e => setNewTodo(e.target.value)}
+                            placeholder="Add a new task"
+                        />
+                        <button onClick={addTodo}>Add</button>
+                    </div>
+                </div>
+            );
+        }
+
+        ReactDOM.render(<App />, document.getElementById("root"));
+    </script>
+</body>
+</html>
