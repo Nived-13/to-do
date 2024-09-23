@@ -93,10 +93,14 @@
             const toggleTodo = index => {
                 const newTodos = [...todos];
                 newTodos[index].completed = !newTodos[index].completed;
-                setTodos(newTodos);
+                if (newTodos[index].completed) {
+                    deleteTodoAfterCompletion(index);
+                } else {
+                    setTodos(newTodos);
+                }
             };
 
-            const deleteTodo = index => {
+            const deleteTodoAfterCompletion = index => {
                 const newTodos = [...todos];
                 newTodos.splice(index, 1);
                 setTodos(newTodos);
@@ -114,7 +118,6 @@
                                     onChange={() => toggleTodo(index)}
                                 />
                                 <span>{todo.text}</span>
-                                <button onClick={() => deleteTodo(index)}>Delete</button>
                             </li>
                         ))}
                     </ul>
