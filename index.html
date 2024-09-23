@@ -69,6 +69,17 @@
         .add-todo button:hover {
             background-color: #218838;
         }
+        .delete-btn {
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .delete-btn:hover {
+            background-color: #c0392b;
+        }
     </style>
 </head>
 <body>
@@ -93,14 +104,10 @@
             const toggleTodo = index => {
                 const newTodos = [...todos];
                 newTodos[index].completed = !newTodos[index].completed;
-                if (newTodos[index].completed) {
-                    deleteTodoAfterCompletion(index);
-                } else {
-                    setTodos(newTodos);
-                }
+                setTodos(newTodos);
             };
 
-            const deleteTodoAfterCompletion = index => {
+            const deleteTodo = index => {
                 const newTodos = [...todos];
                 newTodos.splice(index, 1);
                 setTodos(newTodos);
@@ -118,6 +125,7 @@
                                     onChange={() => toggleTodo(index)}
                                 />
                                 <span>{todo.text}</span>
+                                <button className="delete-btn" onClick={() => deleteTodo(index)}>Delete</button>
                             </li>
                         ))}
                     </ul>
